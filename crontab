@@ -6,5 +6,5 @@
 # or [sun, mon, tue, wed, thu, fri, or sat]
 #
 # Create crontab using:
-# echo "0 0 * * * sh /data/homes/freshness/hdx-data-freshness-docker/cronscript.sh" | crontab -
+# echo "0 0 * * * cd /data/homes/freshness && docker run --env_file hdx-data-freshness-docker/.env mcarans/hdx-data-freshness > cron.log 2>&1" | crontab -
 
