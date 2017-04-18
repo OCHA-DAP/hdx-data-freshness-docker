@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-version: "3"
+version: "3.1"
 
 services:
   #
@@ -21,12 +21,16 @@ services:
       - PGSQL_USER=${DB_USER}
       - PGSQL_PASS=${DB_PASS}
       - PGSQL_DB=${DB_NAME}
-    ports:
-      - "0.0.0.0:5432:5432"
+#    ports:
+#      - "0.0.0.0:5432:5432"
     volumes:
       - "$DB_VOL_BASE_PATH/freshness-db:/var/lib/pgsql"
       - "./docker/db-opt:/opt/db"
-
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "1"
   #
   # REST api
   #
@@ -36,7 +40,12 @@ services:
       - "db"
     ports:
       - "3000:3000"
-    command: ["dockerize", "-wait", "tcp://db:5432", "postgrest", "$DB_URL", "-a", "$DB_USER"]
+    command: ["sh", "/root/runpostgrest.sh"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "1"
 
   #
   # Program
@@ -50,4 +59,10 @@ services:
       - "/:/srv"
     environment:
       - DB_URL=${DB_URL}
-    command: ["dockerize", "-wait", "tcp://db:5432", "python3", "-m", "freshness"]
+    command: ["python3", "-m", "freshness"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "1"
+
