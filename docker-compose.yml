@@ -21,8 +21,8 @@ services:
       - PGSQL_USER=${DB_USER}
       - PGSQL_PASS=${DB_PASS}
       - PGSQL_DB=${DB_NAME}
-#    ports:
-#      - "0.0.0.0:5432:5432"
+    ports:
+      - "0.0.0.0:5432:5432"
     volumes:
       - "$DB_VOL_BASE_PATH/freshness-db:/var/lib/pgsql"
       - "./docker/db-opt:/opt/db"
