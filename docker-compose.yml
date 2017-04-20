@@ -40,6 +40,9 @@ services:
       - "db"
     ports:
       - "3000:3000"
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USER=${DB_USER}
     command: ["sh", "/root/runpostgrest.sh"]
     logging:
       driver: "json-file"
@@ -63,6 +66,6 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "100k"
+        max-size: "1m"
         max-file: "1"
 
