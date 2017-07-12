@@ -17,6 +17,7 @@ services:
   #
   db:
     image: unocha/alpine-postgres:201703-PR116
+    restart: always
     environment:
       - PGSQL_USER=${DB_USER}
       - PGSQL_PASS=${DB_PASS}
@@ -36,6 +37,7 @@ services:
   #
   rest:
     image: mcarans/alpine-haskell-postgrest
+    restart: always
     depends_on:
       - "db"
     ports:
