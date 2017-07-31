@@ -4,8 +4,14 @@
 #  Database:
 #   - PostgreSQL
 #
-#  Program:
-#   - HDX Data Freshness: for collecting freshness statistics about HDX.
+#  REST api:
+#   - PostgREST
+#
+#  Data Freshness
+#   - HDX Data Freshness: collects freshness statistics about HDX
+#
+#  Data Freshness Emailer
+#   - HDX Data Freshness Emailer: emails when datasets overdue/delinquent
 #
 ##############################################################################
 
@@ -53,7 +59,7 @@ services:
         max-file: "1"
 
   #
-  # Program
+  # Data Freshness
   #
   app:
     image: mcarans/hdx-data-freshness
@@ -69,5 +75,24 @@ services:
       driver: "json-file"
       options:
         max-size: "1m"
+        max-file: "1"
+
+  #
+  # Data Freshness Emailer
+  #
+  app:
+    image: mcarans/hdx-data-freshness-emailer
+    depends_on:
+      - "db"
+    hostname: hdx-data-freshness-emailer
+    volumes:
+      - "/:/srv"
+    environment:
+      - DB_URL=${DB_URL}
+    command: ["python3", "-m", "freshnessstatus"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
         max-file: "1"
 
