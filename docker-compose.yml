@@ -88,7 +88,9 @@ services:
     volumes:
       - "/:/srv"
     environment:
+      - HDX_KEY=${HDX_KEY}
       - DB_URL=${DB_URL}
+      - EMAIL_SERVER=${EMAIL_SERVER}
     command: ["python3", "-m", "freshnessstatus"]
     logging:
       driver: "json-file"
