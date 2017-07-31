@@ -61,7 +61,7 @@ services:
   #
   # Data Freshness
   #
-  app:
+  fresh:
     image: mcarans/hdx-data-freshness
     depends_on:
       - "db"
@@ -80,7 +80,7 @@ services:
   #
   # Data Freshness Emailer
   #
-  app:
+  email:
     image: mcarans/hdx-data-freshness-emailer
     depends_on:
       - "db"
