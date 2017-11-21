@@ -70,7 +70,7 @@ services:
       - "/:/srv"
     environment:
       - DB_URL=${DB_URL}
-    command: ["python3", "-m", "freshness"]
+    command: ["python3", "-m", "hdx.freshness"]
     logging:
       driver: "json-file"
       options:
@@ -91,7 +91,7 @@ services:
       - HDX_KEY=${HDX_KEY}
       - DB_URL=${DB_URL}
       - EMAIL_SERVER=${EMAIL_SERVER}
-    command: ["python3", "-m", "freshnessstatus"]
+    command: ["python3", "-m", "hdx.freshness.emailer"]
     logging:
       driver: "json-file"
       options:
