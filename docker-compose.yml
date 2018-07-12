@@ -51,7 +51,7 @@ services:
     environment:
       - DB_URL=${DB_URL}
       - DB_USER=${DB_USER}
-    command: ["sh", "/root/postgrest/runpostgrest.sh"]
+    command: ["sh", "/root/runpostgrest.sh"]
     logging:
       driver: "json-file"
       options:
