@@ -28,8 +28,6 @@ services:
       - PGSQL_USER=${DB_USER}
       - PGSQL_PASS=${DB_PASS}
       - PGSQL_DB=${DB_NAME}
-    ports:
-      - "172.17.0.1:5432:5432"
     volumes:
       - "$BASEDIR/db:/var/lib/pgsql"
       - "$BASEDIR/backup:/backup"
