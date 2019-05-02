@@ -21,8 +21,9 @@ fi
 echo "Compressing the database dump..."
 $docoex $cname sh -c "cd /$basedir; gzip $today.pgsql"
 
-echo "Copying this log file to a timestamped logfile..."
-cp -a $logdir/$logbasefname.log $logdir/$logbasefname.$today.log
+# we rely on logrotate from now on.
+#echo "Copying this log file to a timestamped logfile..."
+#cp -a $logdir/$logbasefname.log $logdir/$logbasefname.$today.log
 
 # sync
 #rsync -av /data/homes/freshness/freshness-db/*.psql.gz DSTIP:/DST/FOLDER/
