@@ -28,10 +28,9 @@ services:
       - PGSQL_USER=${DB_USER}
       - PGSQL_PASS=${DB_PASS}
       - PGSQL_DB=${DB_NAME}
-    ports:
-      - "172.17.0.1:5432:5432"
     volumes:
-      - "$DB_VOL_BASE_PATH/freshness-db:/var/lib/pgsql"
+      - "$BASEDIR/db:/var/lib/pgsql"
+      - "$BASEDIR/backup:/backup"
     logging:
       driver: "json-file"
       options:
@@ -40,22 +39,22 @@ services:
   #
   # REST api
   #
-  rest:
-    image: mcarans/alpine-haskell-postgrest
-    restart: always
-    depends_on:
-      - "db"
-    ports:
-      - "3000:3000"
-    environment:
-      - DB_URL=${DB_URL}
-      - DB_USER=${DB_USER}
-    command: ["sh", "/root/runpostgrest.sh"]
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100k"
-        max-file: "1"
+  #rest:
+  #  image: mcarans/alpine-haskell-postgrest
+  #  restart: always
+  #  depends_on:
+  #    - "db"
+  #  ports:
+  #    - "3000:3000"
+  #  environment:
+  #    - DB_URL=${DB_URL}
+  #    - DB_USER=${DB_USER}
+  #  command: ["sh", "/root/runpostgrest.sh"]
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "100k"
+  #      max-file: "1"
 
   #
   # Data Freshness
@@ -65,8 +64,6 @@ services:
     depends_on:
       - "db"
     hostname: hdx-data-freshness
-    volumes:
-      - "/:/srv"
     environment:
       - HDX_KEY=${HDX_KEY}
       - PREPREFIX=${PREPREFIX}
@@ -86,8 +83,6 @@ services:
     depends_on:
       - "db"
     hostname: hdx-data-freshness-emailer
-    volumes:
-      - "/:/srv"
     environment:
       - HDX_KEY=${HDX_KEY}
       - PREPREFIX=${PREPREFIX}
