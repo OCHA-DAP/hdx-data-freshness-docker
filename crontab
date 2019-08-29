@@ -7,4 +7,6 @@
 #
 # Create crontab using:
 # echo "0 0 * * * cd /data/homes/freshness && sh hdx-data-freshness-docker/runapp.sh > cron.log 2>&1" | crontab -
-0 0 * * * sh cd /data/homes/freshness && sh hdx-data-freshness-docker/runapp.sh > cron.log 2>&1
+0 1 * * * sh /data/freshness/stack/runfresh.sh > /data/freshness/log/cronfresh.log 2>&1
+0 9 * * * sh /data/freshness/stack/runemail.sh > /data/freshness/log/cronemail.log 2>&1
+0 10 * * * sh /data/freshness/stack/rundbbackup.sh > /data/freshness/log/crondbbackup.log 2>&1
