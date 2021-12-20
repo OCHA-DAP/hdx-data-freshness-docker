@@ -89,6 +89,8 @@ services:
       - DB_URL=${DB_URL}
       - EMAIL_SERVER=${EMAIL_SERVER}
       - 'GSHEET_AUTH=${GSHEET_AUTH}'
+      - FAILURE_EMAILS=${FAILURE_EMAILS}
+      - SYSADMIN_EMAILS=${SYSADMIN_EMAILS}
     command: ["python3", "-m", "hdx.freshness.emailer.app"]
     logging:
       driver: "json-file"
