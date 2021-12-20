@@ -68,7 +68,7 @@ services:
       - HDX_KEY=${HDX_KEY}
       - PREPREFIX=${PREPREFIX}
       - DB_URL=${DB_URL}
-    command: ["python3", "-m", "hdx.freshness"]
+    command: ["python3", "-m", "hdx.freshness.app"]
     logging:
       driver: "json-file"
       options:
@@ -89,7 +89,7 @@ services:
       - DB_URL=${DB_URL}
       - EMAIL_SERVER=${EMAIL_SERVER}
       - 'GSHEET_AUTH=${GSHEET_AUTH}'
-    command: ["python3", "-m", "hdx.freshness.emailer"]
+    command: ["python3", "-m", "hdx.freshness.emailer.app"]
     logging:
       driver: "json-file"
       options:
