@@ -13,6 +13,9 @@
 #  Data Freshness Emailer
 #   - HDX Data Freshness Emailer: emails when datasets overdue/delinquent
 #
+#  Data Freshness Database Cleaner
+#   - HDX Data Database Cleaner: cleans old runs from the freshness database
+#
 ##############################################################################
 
 version: "3.1"
