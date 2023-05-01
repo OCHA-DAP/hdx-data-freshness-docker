@@ -103,7 +103,7 @@ services:
   #
   # Data Freshness Database Cleaner
   #
-  email:
+  dbclean:
     image: public.ecr.aws/unocha/hdx-data-freshness-dbclean:main
     depends_on:
       - "db"
