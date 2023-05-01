@@ -36,6 +36,8 @@ services:
       options:
         max-size: "100k"
         max-file: "1"
+    ports:
+      - "10.99.0.1:5432:5432"
   #
   # REST api
   #
@@ -60,14 +62,14 @@ services:
   # Data Freshness
   #
   fresh:
-    image: mcarans/hdx-data-freshness
+    image: public.ecr.aws/unocha/hdx-data-freshness:main
     depends_on:
       - "db"
     hostname: hdx-data-freshness
     environment:
       - HDX_KEY=${HDX_KEY}
       - PREPREFIX=${PREPREFIX}
-      - DB_URL=${DB_URL}
+      - DB_URI=${DB_URI}
     command: ["python3", "-m", "hdx.freshness.app"]
     logging:
       driver: "json-file"
@@ -79,14 +81,14 @@ services:
   # Data Freshness Emailer
   #
   email:
-    image: mcarans/hdx-data-freshness-emailer
+    image: public.ecr.aws/unocha/hdx-data-freshness-emailer:main
     depends_on:
       - "db"
     hostname: hdx-data-freshness-emailer
     environment:
       - HDX_KEY=${HDX_KEY}
       - PREPREFIX=${PREPREFIX}
-      - DB_URL=${DB_URL}
+      - DB_URI=${DB_URI}
       - EMAIL_SERVER=${EMAIL_SERVER}
       - 'GSHEET_AUTH=${GSHEET_AUTH}'
       - FAILURE_EMAILS=${FAILURE_EMAILS}
@@ -97,4 +99,3 @@ services:
       options:
         max-size: "100k"
         max-file: "1"
-
