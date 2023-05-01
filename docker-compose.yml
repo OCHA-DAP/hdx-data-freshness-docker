@@ -99,3 +99,22 @@ services:
       options:
         max-size: "100k"
         max-file: "1"
+
+  #
+  # Data Freshness Database Cleaner
+  #
+  email:
+    image: public.ecr.aws/unocha/hdx-data-freshness-dbclean:main
+    depends_on:
+      - "db"
+    hostname: hdx-data-freshness-dbclean
+    environment:
+      - HDX_KEY=${HDX_KEY}
+      - PREPREFIX=${PREPREFIX}
+      - DB_URI=${DB_URI}
+    command: ["python3", "-m", "hdx.freshness.dbactions"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "1"
