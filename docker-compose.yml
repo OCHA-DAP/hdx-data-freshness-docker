@@ -41,83 +41,44 @@ services:
         max-file: "1"
     ports:
       - "10.99.0.1:5432:5432"
-  #
-  # REST api
-  #
-  #rest:
-  #  image: mcarans/alpine-haskell-postgrest
-  #  restart: always
-  #  depends_on:
-  #    - "db"
-  #  ports:
-  #    - "3000:3000"
-  #  environment:
-  #    - DB_URL=${DB_URL}
-  #    - DB_USER=${DB_USER}
-  #  command: ["sh", "/root/runpostgrest.sh"]
-  #  logging:
-  #    driver: "json-file"
-  #    options:
-  #      max-size: "100k"
-  #      max-file: "1"
 
   #
   # Data Freshness
   #
   fresh:
-    image: public.ecr.aws/unocha/hdx-data-freshness:main
+    extends:
+      file: .common.yml
+      service: freshness
     depends_on:
       - "db"
     hostname: hdx-data-freshness
-    environment:
-      - HDX_KEY=${HDX_KEY}
-      - PREPREFIX=${PREPREFIX}
-      - DB_URI=${DB_URI}
     command: ["python3", "-m", "hdx.freshness.app"]
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "1"
 
   #
   # Data Freshness Emailer
   #
   email:
-    image: public.ecr.aws/unocha/hdx-data-freshness-emailer:main
+    extends:
+      file: .common.yml
+      service: freshness
     depends_on:
       - "db"
     hostname: hdx-data-freshness-emailer
     environment:
-      - HDX_KEY=${HDX_KEY}
-      - PREPREFIX=${PREPREFIX}
-      - DB_URI=${DB_URI}
       - EMAIL_SERVER=${EMAIL_SERVER}
       - 'GSHEET_AUTH=${GSHEET_AUTH}'
       - FAILURE_EMAILS=${FAILURE_EMAILS}
       - SYSADMIN_EMAILS=${SYSADMIN_EMAILS}
     command: ["python3", "-m", "hdx.freshness.emailer.app"]
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100k"
-        max-file: "1"
 
   #
   # Data Freshness Database Cleaner
   #
   dbclean:
-    image: public.ecr.aws/unocha/hdx-data-freshness-dbclean:main
+    extends:
+      file: .common.yml
+      service: freshness
     depends_on:
       - "db"
     hostname: hdx-data-freshness-dbclean
-    environment:
-      - HDX_KEY=${HDX_KEY}
-      - PREPREFIX=${PREPREFIX}
-      - DB_URI=${DB_URI}
     command: ["python3", "-m", "hdx.freshness.dbactions"]
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100k"
-        max-file: "1"
