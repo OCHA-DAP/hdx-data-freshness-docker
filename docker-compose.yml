@@ -50,7 +50,7 @@ services:
       POSTGRES_USER: ${DB_USER:-freshness}
       POSTGRES_DB: ${DB_NAME:-freshness}
     volumes:
-      - "$BASEDIR/db:/var/lib/pgsql"
+      - "$BASEDIR/db:/var/lib/postgresql"
       - "$BASEDIR/backup:/backup"
     logging:
       driver: "json-file"
