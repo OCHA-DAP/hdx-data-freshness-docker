@@ -46,12 +46,14 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
+      PGDATA: /var/lib/pgsql/data
       POSTGRES_PASSWORD: ${DB_PASS:-freshness}
       POSTGRES_USER: ${DB_USER:-freshness}
       POSTGRES_DB: ${DB_NAME:-freshness}
     volumes:
-      - "$BASEDIR/db:/var/lib/postgresql"
+      - "$BASEDIR/db:/var/lib/pgsql"
       - "$BASEDIR/backup:/backup"
+      - "./postgres-init:/docker-entrypoint-initdb.d"
     logging:
       driver: "json-file"
       options:
