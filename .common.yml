@@ -6,8 +6,6 @@ services:
   #
   freshness:
     image: public.ecr.aws/unocha/hdx-data-freshness:main
-    depends_on:
-      - "db"
     environment:
       - HDX_KEY=${HDX_KEY}
       - PREPREFIX=${PREPREFIX}
