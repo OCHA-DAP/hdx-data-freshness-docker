@@ -24,13 +24,31 @@ services:
   #
   # Database
   #
-  db:
+  olddb:
     image: unocha/postgis:9.6
     restart: always
     environment:
       - PGSQL_USER=${DB_USER}
       - PGSQL_PASS=${DB_PASS}
       - PGSQL_DB=${DB_NAME}
+    volumes:
+      - "$BASEDIR/olddb:/var/lib/pgsql"
+      - "$BASEDIR/backup:/backup"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "1"
+    ports:
+      - "10.99.0.1:5433:5432"
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS:-freshness}
+      POSTGRES_USER: ${DB_USER:-freshness}
+      POSTGRES_DB: ${DB_NAME:-freshness}
     volumes:
       - "$BASEDIR/db:/var/lib/pgsql"
       - "$BASEDIR/backup:/backup"
