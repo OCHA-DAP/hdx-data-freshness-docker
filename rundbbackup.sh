@@ -11,7 +11,7 @@ docoex="/usr/local/bin/docker-compose exec -T"
 
 # backup
 cd $projdir
-$docoex $cname sh -c "cd $basedir; pg_dump -vFc -U postgres -f $today.pgsql freshness"
+$docoex $cname sh -c "cd $basedir; pg_dump -vFc -U freshness -f $today.pgsql freshness"
 
 if [ "$?" -ne "0" ]; then
     echo "Database dump errored out. Removing the dump and exiting early."
